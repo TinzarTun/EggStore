@@ -9,10 +9,16 @@
     </head>
 
 <body class="bg-gray-50">
-    <div class="container mt-5">
+    {{-- Header --}}
+    @include('admin.partials.header')
 
+    <div class="flex">
+        {{-- Sidebar --}}
+        @include('admin.partials.sidebar')
+
+        {{-- Main Content --}}
         @yield('content')
-
     </div>
+
 </body>
 </html>
