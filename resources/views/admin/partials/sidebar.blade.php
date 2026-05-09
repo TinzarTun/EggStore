@@ -1,6 +1,6 @@
 <!-- Sidebar -->
-<aside class="hidden md:flex w-64 bg-gray-900 flex-col">
-    <nav class="flex-1 px-4 py-6 space-y-2">
+<aside id="sidebar" class="sidebar-mobile fixed left-0 top-[4.5rem] w-64 h-[calc(100vh-4.5rem)] bg-gray-900 flex flex-col z-30">
+    <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
         <a href="#" class="flex items-center gap-3 px-4 py-3 text-white bg-amber-600 rounded-lg">
             <i class="fas fa-chart-line"></i>
             <span>Dashboard</span>
@@ -46,7 +46,6 @@
     </div>
 </aside>
 
-<!-- Mobile Menu Toggle -->
-<button class="md:hidden fixed bottom-6 right-6 z-50 w-14 h-14 bg-amber-500 text-white rounded-full flex items-center justify-center shadow-lg">
-    <i class="fas fa-bars text-xl"></i>
-</button>
+<!-- Mobile Overlay -->
+<div id="sidebarOverlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-20 md:hidden" style="top: 4.5rem;"></div>
+</div>
