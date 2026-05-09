@@ -12,7 +12,7 @@
     {{-- Header --}}
     @include('admin.partials.header')
 
-    <div class="flex">
+    <div class="flex pt-20">
         {{-- Sidebar --}}
         @include('admin.partials.sidebar')
 
