@@ -5,7 +5,7 @@
             <i class="fas fa-chart-line"></i>
             <span>Dashboard</span>
         </a>
-        <a href="{{ route('user.create') }}" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-gray-800 rounded-lg">
+        <a href="{{ route('user.list') }}" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-gray-800 rounded-lg">
             <i class="fas fa-users"></i>
             <span>Users</span>
         </a>

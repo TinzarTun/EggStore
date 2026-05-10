@@ -7,7 +7,7 @@
     <div class="mb-8">
         <h2 class="text-3xl font-bold text-gray-900 mb-2">Create New User</h2>
         <p class="text-sm text-gray-500 flex items-center gap-2">
-            <a href="#" class="hover:text-gray-700">User List</a>
+            <a href="{{ route('user.list') }}" class="hover:text-gray-700">User List</a>
             <i class="fas fa-chevron-right text-xs"></i>
             <span class="text-gray-900 font-medium">Create User</span>
         </p>

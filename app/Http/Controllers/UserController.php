@@ -73,6 +73,12 @@ class UserController extends Controller
         return back()->with('success', 'User created successfully!');
     }
 
+    // get list
+    public function getList(){
+        $users = User::all();
+        return view('admin.user.list', compact('users'));
+    }
+
     // get user data
     private function getUserData(Request $request)
     {
