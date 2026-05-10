@@ -17,38 +17,125 @@
     <div class="w-full">
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 md:p-8 max-w-5xl">
 
-            <form class="space-y-6">
+            <form class="space-y-6" method="POST" action="{{ route('user.create.submit') }}" enctype="multipart/form-data">
+                @csrf
 
-                <!-- Name -->
+                <!-- Image Upload -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
-                    <input type="text" name="name"
-                        placeholder="e.g., John Doe"
-                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none">
+                    {{-- <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Profile Image
+                    </label> --}}
+
+                    <div class="flex items-center gap-6">
+
+                        <!-- Preview -->
+                        <div class="w-24 h-24 rounded-full border border-gray-300 overflow-hidden bg-gray-100 flex items-center justify-center">
+                            <img id="preview" class="object-cover w-full h-full hidden">
+                            <span id="placeholder" class="text-gray-400 text-xs text-center px-2">
+                                No Image
+                            </span>
+                        </div>
+
+                        <!-- Upload Button -->
+                        <div>
+                            <label class="cursor-pointer inline-block px-4 py-2 bg-amber-600 text-white text-sm rounded-lg shadow hover:bg-amber-700">
+                                Choose Image
+                                <input type="file" name="image" class="hidden" accept="image/*" onchange="previewImage(event)">
+                            </label>
+
+                            <p class="text-xs text-gray-500 mt-2">
+                                JPG, PNG, GIF (Max 5MB)
+                            </p>
+                        </div>
+
+                    </div>
                 </div>
 
-                <!-- Email -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
-                    <input type="email" name="email"
-                        placeholder="e.g., john@example.com"
-                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none">
+                <script>
+                function previewImage(event) {
+                    const file = event.target.files[0];
+                    if (!file) return;
+
+                    const reader = new FileReader();
+
+                    reader.onload = function () {
+                        const img = document.getElementById('preview');
+                        const placeholder = document.getElementById('placeholder');
+
+                        img.src = reader.result;
+                        img.classList.remove('hidden');
+                        placeholder.style.display = 'none';
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+                </script>
+
+                <!-- Name & Email -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <!-- Name -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Full Name <span class="text-red-500">*</span></label>
+                        <input type="text" name="name" value="{{ old('name') }}"
+                            placeholder="Your Full Name"
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none">
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Email <span class="text-red-500">*</span></label>
+                        <input type="email" name="email" value="{{ old('email') }}"
+                            placeholder="e.g., user@example.com"
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none">
+                    </div>
+
                 </div>
 
-                <!-- Password -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Password *</label>
-                    <input type="password" name="password"
-                        placeholder="Enter password"
-                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none">
+                <!-- Password & Retype Password -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <!-- Password -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Password <span class="text-red-500">*</span></label>
+                        <input type="password" name="password"
+                            placeholder="Enter password"
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none">
+                    </div>
+
+                    <!-- Retype Password -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Retype Password <span class="text-red-500">*</span></label>
+                        <input type="password" name="password_confirmation"
+                            placeholder="Retype password"
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none">
+                    </div>
+
                 </div>
 
-                <!-- Phone -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-                    <input type="text" name="phone"
-                        placeholder="e.g., +959123456789"
-                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none">
+                <!-- Phone & Gender -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <!-- Phone -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                        <input type="text" name="phone" value="{{ old('phone') }}"
+                            placeholder="e.g., 09123456789"
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none">
+                    </div>
+
+                    <!-- Gender -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                        <select name="gender"
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none">
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
                 </div>
 
                 <!-- City & Location -->
@@ -75,34 +162,34 @@
 
                             <!-- Yangon -->
                             <optgroup label="Yangon">
-                                <option>Ahlone</option>
-                                <option>Bahan</option>
-                                <option>Botahtaung</option>
-                                <option>Dagon</option>
-                                <option>Hlaing</option>
-                                <option>Insein</option>
-                                <option>Kamayut</option>
-                                <option>Kyauktada</option>
-                                <option>Mayangone</option>
-                                <option>Mingaladon</option>
-                                <option>North Dagon</option>
-                                <option>North Okkalapa</option>
-                                <option>Sanchaung</option>
-                                <option>South Dagon</option>
-                                <option>South Okkalapa</option>
-                                <option>Tamwe</option>
-                                <option>Thingangyun</option>
-                                <option>Thaketa</option>
-                                <option>Yankin</option>
+                                <option value="ahlone">Ahlone</option>
+                                <option value="bahan">Bahan</option>
+                                <option value="botahtaung">Botahtaung</option>
+                                <option value="dagon">Dagon</option>
+                                <option value="hlaing">Hlaing</option>
+                                <option value="insein">Insein</option>
+                                <option value="kamayut">Kamayut</option>
+                                <option value="kyauktada">Kyauktada</option>
+                                <option value="mayangone">Mayangone</option>
+                                <option value="mingaladon">Mingaladon</option>
+                                <option value="north_dagon">North Dagon</option>
+                                <option value="north_okkalapa">North Okkalapa</option>
+                                <option value="sanchaung">Sanchaung</option>
+                                <option value="south_dagon">South Dagon</option>
+                                <option value="south_okkalapa">South Okkalapa</option>
+                                <option value="tamwe">Tamwe</option>
+                                <option value="thingangyun">Thingangyun</option>
+                                <option value="thaketa">Thaketa</option>
+                                <option value="yankin">Yankin</option>
                             </optgroup>
 
                             <!-- Mandalay -->
                             <optgroup label="Mandalay">
-                                <option>Aungmyaythazan</option>
-                                <option>Chanayethazan</option>
-                                <option>Mahaaungmyay</option>
-                                <option>Pyigyidagun</option>
-                                <option>Amarapura</option>
+                                <option value="aungmyaythazan">Aungmyaythazan</option>
+                                <option value="chanayethazan">Chanayethazan</option>
+                                <option value="mahaaungmyay">Mahaaungmyay</option>
+                                <option value="pyigyidagun">Pyigyidagun</option>
+                                <option value="amarapura">Amarapura</option>
                             </optgroup>
 
                         </select>
@@ -113,35 +200,19 @@
                 <!-- Address -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Address</label>
-                    <textarea name="address" rows="3"
-                        placeholder="Full address..."
-                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none"></textarea>
+                    <textarea name="address" rows="3" placeholder="Full address..." class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none">{{ old('address') }}</textarea>
                 </div>
 
-                <!-- Image Upload -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Profile Image</label>
-
-                    <label class="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-amber-500 transition">
-                        <i class="fas fa-user-circle text-gray-400 text-3xl mb-2"></i>
-                        <p class="text-sm text-gray-600">Click to upload</p>
-                        <input id="userImageInput" type="file" name="image" class="hidden" accept="image/*">
-                    </label>
-
-                    <!-- Preview -->
-                    <div id="userPreview" class="mt-4"></div>
-                </div>
-
-                <!-- Email Verified -->
+                <!-- Terms and Conditions -->
                 <div class="flex items-center gap-2">
-                    <input type="checkbox" name="email_verified_at" value="1"
+                    <input type="checkbox" name="terms" value="1"
                         class="rounded text-amber-600 focus:ring-amber-500">
-                    <label class="text-sm text-gray-700">Mark email as verified</label>
+                    <label class="text-sm text-gray-700">I agree to the Terms and Conditions</label>
                 </div>
 
                 <!-- Actions -->
                 <div class="flex justify-end gap-4 pt-6 border-t border-gray-200">
-                    <button type="button"
+                    <button type="reset"
                         class="px-6 py-2.5 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200">
                         Cancel
                     </button>
@@ -162,38 +233,4 @@
     </footer>
 
 </main>
-
-<script>
-// Image Preview Script (Single Image)
-const userImageInput = document.getElementById('userImageInput');
-const userPreview = document.getElementById('userPreview');
-
-userImageInput.addEventListener('change', function () {
-    const file = this.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-
-    reader.onload = function (e) {
-        userPreview.innerHTML = `
-            <div class="relative inline-block">
-                <img src="${e.target.result}" class="w-32 h-32 object-cover rounded-lg border">
-
-                <button type="button"
-                    id="removeImage"
-                    class="absolute top-1 right-1 bg-red-500 text-white text-xs px-2 py-1 rounded">
-                    ✕
-                </button>
-            </div>
-        `;
-
-        document.getElementById('removeImage').onclick = () => {
-            userPreview.innerHTML = '';
-            userImageInput.value = '';
-        };
-    };
-
-    reader.readAsDataURL(file);
-});
-</script>
 @endsection
