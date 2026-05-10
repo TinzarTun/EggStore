@@ -10,5 +10,5 @@ Route::get('/', function () {
 // user
 Route::group(['prefix'=> 'user'], function () {
     Route::get('create', [UserController::class,'getCreate'])->name('user.create');
-    Route::post('create', [UserController::class,'postCreate'])->name('user.create.submit');
+    Route::post('create', [UserController::class,'postCreate'])->name('user.store');
 });

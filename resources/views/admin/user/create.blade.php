@@ -17,7 +17,7 @@
     <div class="w-full">
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 md:p-8 max-w-5xl">
 
-            <form class="space-y-6" method="POST" action="{{ route('user.create.submit') }}" enctype="multipart/form-data">
+            <form class="space-y-6" method="POST" action="{{ route('user.store') }}" enctype="multipart/form-data">
                 @csrf
 
                 <!-- Image Upload -->
@@ -49,6 +49,11 @@
                         </div>
 
                     </div>
+
+                     @error('image')
+                        <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                    @enderror
+
                 </div>
 
                 <script>
@@ -76,18 +81,28 @@
 
                     <!-- Name -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Full Name <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            Full Name <span class="text-red-500">*</span>
+                        </label>
                         <input type="text" name="name" value="{{ old('name') }}"
                             placeholder="Your Full Name"
                             class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none">
+                        @error('name')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Email -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Email <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            Email <span class="text-red-500">*</span>
+                        </label>
                         <input type="email" name="email" value="{{ old('email') }}"
                             placeholder="e.g., user@example.com"
                             class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none">
+                        @error('email')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                 </div>
@@ -101,6 +116,9 @@
                         <input type="password" name="password"
                             placeholder="Enter password"
                             class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none">
+                        @error('password')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Retype Password -->
@@ -109,6 +127,9 @@
                         <input type="password" name="password_confirmation"
                             placeholder="Retype password"
                             class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none">
+                        @error('password')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                 </div>
@@ -119,9 +140,12 @@
                     <!-- Phone -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-                        <input type="text" name="phone" value="{{ old('phone') }}"
+                        <input type="tel" name="phone" value="{{ old('phone') }}"
                             placeholder="e.g., 09123456789"
                             class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none">
+                        @error('phone')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Gender -->
@@ -130,10 +154,13 @@
                         <select name="gender"
                             class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none">
                             <option value="">Select Gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
+                            <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Male</option>
+                            <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>Female</option>
+                            <option value="other" {{ old('gender') == 'other' ? 'selected' : '' }}>Other</option>
                         </select>
+                        @error('gender')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                 </div>
@@ -145,11 +172,14 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">City</label>
                         <select name="city"
-                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none">
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg">
                             <option value="">Select City</option>
-                            <option value="yangon">Yangon</option>
-                            <option value="mandalay">Mandalay</option>
+                            <option value="yangon" {{ old('city') == 'yangon' ? 'selected' : '' }}>Yangon</option>
+                            <option value="mandalay" {{ old('city') == 'mandalay' ? 'selected' : '' }}>Mandalay</option>
                         </select>
+                        @error('city')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Location -->
@@ -162,37 +192,40 @@
 
                             <!-- Yangon -->
                             <optgroup label="Yangon">
-                                <option value="ahlone">Ahlone</option>
-                                <option value="bahan">Bahan</option>
-                                <option value="botahtaung">Botahtaung</option>
-                                <option value="dagon">Dagon</option>
-                                <option value="hlaing">Hlaing</option>
-                                <option value="insein">Insein</option>
-                                <option value="kamayut">Kamayut</option>
-                                <option value="kyauktada">Kyauktada</option>
-                                <option value="mayangone">Mayangone</option>
-                                <option value="mingaladon">Mingaladon</option>
-                                <option value="north_dagon">North Dagon</option>
-                                <option value="north_okkalapa">North Okkalapa</option>
-                                <option value="sanchaung">Sanchaung</option>
-                                <option value="south_dagon">South Dagon</option>
-                                <option value="south_okkalapa">South Okkalapa</option>
-                                <option value="tamwe">Tamwe</option>
-                                <option value="thingangyun">Thingangyun</option>
-                                <option value="thaketa">Thaketa</option>
-                                <option value="yankin">Yankin</option>
+                                <option value="ahlone" {{ old('location') == 'ahlone' ? 'selected' : '' }}>Ahlone</option>
+                                <option value="bahan" {{ old('location') == 'bahan' ? 'selected' : '' }}>Bahan</option>
+                                <option value="botahtaung" {{ old('location') == 'botahtaung' ? 'selected' : '' }}>Botahtaung</option>
+                                <option value="dagon" {{ old('location') == 'dagon' ? 'selected' : '' }}>Dagon</option>
+                                <option value="hlaing" {{ old('location') == 'hlaing' ? 'selected' : '' }}>Hlaing</option>
+                                <option value="insein" {{ old('location') == 'insein' ? 'selected' : '' }}>Insein</option>
+                                <option value="kamayut" {{ old('location') == 'kamayut' ? 'selected' : '' }}>Kamayut</option>
+                                <option value="kyauktada" {{ old('location') == 'kyauktada' ? 'selected' : '' }}>Kyauktada</option>
+                                <option value="mayangone" {{ old('location') == 'mayangone' ? 'selected' : '' }}>Mayangone</option>
+                                <option value="mingaladon" {{ old('location') == 'mingaladon' ? 'selected' : '' }}>Mingaladon</option>
+                                <option value="north_dagon" {{ old('location') == 'north_dagon' ? 'selected' : '' }}>North Dagon</option>
+                                <option value="north_okkalapa" {{ old('location') == 'north_okkalapa' ? 'selected' : '' }}>North Okkalapa</option>
+                                <option value="sanchaung" {{ old('location') == 'sanchaung' ? 'selected' : '' }}>Sanchaung</option>
+                                <option value="south_dagon" {{ old('location') == 'south_dagon' ? 'selected' : '' }}>South Dagon</option>
+                                <option value="south_okkalapa" {{ old('location') == 'south_okkalapa' ? 'selected' : '' }}>South Okkalapa</option>
+                                <option value="tamwe" {{ old('location') == 'tamwe' ? 'selected' : '' }}>Tamwe</option>
+                                <option value="thingangyun" {{ old('location') == 'thingangyun' ? 'selected' : '' }}>Thingangyun</option>
+                                <option value="thaketa" {{ old('location') == 'thaketa' ? 'selected' : '' }}>Thaketa</option>
+                                <option value="yankin" {{ old('location') == 'yankin' ? 'selected' : '' }}>Yankin</option>
                             </optgroup>
 
                             <!-- Mandalay -->
                             <optgroup label="Mandalay">
-                                <option value="aungmyaythazan">Aungmyaythazan</option>
-                                <option value="chanayethazan">Chanayethazan</option>
-                                <option value="mahaaungmyay">Mahaaungmyay</option>
-                                <option value="pyigyidagun">Pyigyidagun</option>
-                                <option value="amarapura">Amarapura</option>
+                                <option value="aungmyaythazan" {{ old('location') == 'aungmyaythazan' ? 'selected' : '' }}>Aungmyaythazan</option>
+                                <option value="chanayethazan" {{ old('location') == 'chanayethazan' ? 'selected' : '' }}>Chanayethazan</option>
+                                <option value="mahaaungmyay" {{ old('location') == 'mahaaungmyay' ? 'selected' : '' }}>Mahaaungmyay</option>
+                                <option value="pyigyidagun" {{ old('location') == 'pyigyidagun' ? 'selected' : '' }}>Pyigyidagun</option>
+                                <option value="amarapura" {{ old('location') == 'amarapura' ? 'selected' : '' }}>Amarapura</option>
                             </optgroup>
 
                         </select>
+                        @error('location')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                 </div>
@@ -201,13 +234,22 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Address</label>
                     <textarea name="address" rows="3" placeholder="Full address..." class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none">{{ old('address') }}</textarea>
+                    @error('address')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- Terms and Conditions -->
-                <div class="flex items-center gap-2">
-                    <input type="checkbox" name="terms" value="1"
+                <div>
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" name="terms" value="1"
+                        {{ old('terms') ? 'checked' : '' }}
                         class="rounded text-amber-600 focus:ring-amber-500">
-                    <label class="text-sm text-gray-700">I agree to the Terms and Conditions</label>
+                        <label class="text-sm text-gray-700">I agree to the Terms and Conditions</label>
+                    </div>
+                    @error('terms')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- Actions -->
