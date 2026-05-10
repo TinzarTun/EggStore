@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -19,7 +20,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'name' => 'required|string|max:30',
-            'email' => 'required|email:rfc,dns|max:50|unique:customers,email',
+            'email' => 'required|email:rfc,dns|max:50|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
             'phone' => 'required|digits_between:1,15',
             'gender' => 'required',
@@ -56,6 +57,20 @@ class UserController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
+
+        // dd($request->all());
+        $data=$this->getUserData($request);
+        // dd($data);
+
+        // image handle
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('profile', 'public');
+            $data['image'] = $path;
+        }
+
+        // MVC framework = Model, View, Controller
+        User::create($data);
+        return back()->with('success', 'User created successfully!');
     }
 
     // get user data

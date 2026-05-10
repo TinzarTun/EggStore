@@ -17,6 +17,16 @@
     <div class="w-full">
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 md:p-8 max-w-5xl">
 
+            @if(session('success'))
+                <div class="mb-4 px-4 py-3 rounded-lg bg-green-100 border border-green-300 text-green-800 flex justify-between items-center">
+                    <span>{{ session('success') }}</span>
+
+                    <button onclick="this.parentElement.remove()" class="text-green-700 font-bold">
+                        ×
+                    </button>
+                </div>
+            @endif
+
             <form class="space-y-6" method="POST" action="{{ route('user.store') }}" enctype="multipart/form-data">
                 @csrf
 
@@ -50,7 +60,7 @@
 
                     </div>
 
-                     @error('image')
+                    @error('image')
                         <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
                     @enderror
 
