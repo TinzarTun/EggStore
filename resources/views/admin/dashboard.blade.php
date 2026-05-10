@@ -256,5 +256,10 @@
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="mt-auto pt-6 text-center text-sm text-gray-500">
+        © 2026 EggStore Admin Panel. All rights reserved.
+    </footer>
 </main>
 @endsection
