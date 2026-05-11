@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<aside id="sidebar" class="sidebar-mobile fixed left-0 top-20 w-64 h-[calc(100vh-5rem)] bg-gray-900 flex flex-col z-30">
+<aside id="sidebar" class="sidebar-mobile fixed left-0 top-0 pt-[73px] w-64 h-screen bg-gray-900 flex flex-col z-30">
     <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
         <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-4 py-3 text-white bg-amber-600 rounded-lg">
             <i class="fas fa-chart-line"></i>
@@ -47,4 +47,4 @@
 </aside>
 
 <!-- Mobile Overlay -->
-<div id="sidebarOverlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-20" style="top: 5rem;"></div>
+<div id="sidebarOverlay" class="hidden fixed inset-0 top-[73px] bg-black/50 z-20"></div>

@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('content')
-<main class="flex-1 ml-0 md:ml-64 p-6 md:p-8 min-h-screen flex flex-col">
+<main class="flex-1 min-w-0 ml-0 md:ml-64 p-4 sm:p-6 md:p-8 min-h-screen flex flex-col">
 
     <!-- Breadcrumb -->
     <div class="mb-8">
@@ -14,19 +14,19 @@
     </div>
 
     <!-- Form Wrapper -->
-    <div class="w-full">
-        <div class="relative bg-white rounded-xl shadow-sm border border-gray-200 p-6 md:p-8 max-w-5xl">
+    <div class="w-full flex justify-center">
+        <div class="relative bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 md:p-8 w-full max-w-4xl">
 
             <!-- Close Button -->
             <a href="{{ route('user.list') }}"
                 onclick="return confirm('Are you sure you want to leave this form?')"
-                class="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-red-100 hover:text-red-600 transition">
+                class="absolute top-3 right-3 sm:top-4 sm:right-4 w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-red-100 hover:text-red-600 transition">
 
                 <i class="fas fa-times"></i>
             </a>
 
             @if(session('success'))
-                <div class="mb-4 px-4 py-3 rounded-lg bg-green-100 border border-green-300 text-green-800 flex justify-between items-center">
+                <div class="mb-4 px-4 py-3 rounded-lg bg-green-100 border border-green-300 text-green-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <span>{{ session('success') }}</span>
 
                     <button onclick="this.parentElement.remove()" class="text-green-700 font-bold">
@@ -44,7 +44,7 @@
                         Profile Image
                     </label> --}}
 
-                    <div class="flex items-center gap-6">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
 
                         <!-- Preview -->
                         <div class="w-24 h-24 rounded-full border border-gray-300 overflow-hidden bg-gray-100 flex items-center justify-center">
@@ -271,14 +271,14 @@
                 </div>
 
                 <!-- Actions -->
-                <div class="flex justify-end gap-4 pt-6 border-t border-gray-200">
+                <div class="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 pt-6 border-t border-gray-200">
                     <button type="reset"
-                        class="px-6 py-2.5 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200">
+                        class="w-full sm:w-auto px-6 py-2.5 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200">
                         Cancel
                     </button>
 
                     <button type="submit"
-                        class="px-6 py-2.5 rounded-lg bg-amber-600 text-white hover:bg-amber-700 shadow-sm">
+                        class="w-full sm:w-auto px-6 py-2.5 rounded-lg bg-amber-600 text-white hover:bg-amber-700 shadow-sm">
                         Create User
                     </button>
                 </div>

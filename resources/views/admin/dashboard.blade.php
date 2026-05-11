@@ -2,7 +2,7 @@
 
 @section('content')
 <!-- Main Content -->
-<main class="flex-1 ml-0 md:ml-64 p-6 md:p-8 min-h-screen flex flex-col">
+<main class="flex-1 min-w-0 ml-0 md:ml-64 p-4 sm:p-6 md:p-8 min-h-screen flex flex-col">
     <!-- Welcome Section -->
     <div class="mb-8">
         <h2 class="text-3xl font-bold text-gray-900 mb-2">Welcome back, Admin!</h2>

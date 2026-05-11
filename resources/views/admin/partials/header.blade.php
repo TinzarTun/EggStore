@@ -1,6 +1,6 @@
 <!-- Header -->
 <header class="bg-white border-b border-gray-200 sticky top-0 z-40">
-    <div class="flex items-center justify-between px-6 py-4">
+    <div class="flex items-center justify-between px-4 sm:px-6 py-4">
         <div class="flex items-center gap-3">
             <button id="sidebarToggle" class="md:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-lg">
                 <i class="fas fa-bars text-xl"></i>
@@ -10,7 +10,7 @@
             </div>
             <h1 class="text-2xl font-bold text-gray-900">EggStore</h1>
         </div>
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2 sm:gap-4">
             <button class="relative p-2 text-gray-600 hover:bg-gray-100 rounded-lg">
                 <i class="fas fa-bell text-xl"></i>
                 <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
