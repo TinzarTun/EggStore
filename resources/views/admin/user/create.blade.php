@@ -15,7 +15,15 @@
 
     <!-- Form Wrapper -->
     <div class="w-full">
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 md:p-8 max-w-5xl">
+        <div class="relative bg-white rounded-xl shadow-sm border border-gray-200 p-6 md:p-8 max-w-5xl">
+
+            <!-- Close Button -->
+            <a href="{{ route('user.list') }}"
+                onclick="return confirm('Are you sure you want to leave this form?')"
+                class="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-red-100 hover:text-red-600 transition">
+
+                <i class="fas fa-times"></i>
+            </a>
 
             @if(session('success'))
                 <div class="mb-4 px-4 py-3 rounded-lg bg-green-100 border border-green-300 text-green-800 flex justify-between items-center">
