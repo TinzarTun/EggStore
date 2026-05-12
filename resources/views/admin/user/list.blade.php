@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('content')
-<main class="flex-1 ml-0 md:ml-64 p-6 md:p-8 min-h-screen flex flex-col bg-gray-50">
+<main class="flex-1 min-w-0 ml-0 md:ml-64 p-4 sm:p-6 md:p-8 min-h-screen flex flex-col bg-gray-50">
 
     <!-- Page Header -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
@@ -40,26 +40,21 @@
             </div>
 
             <!-- Gender Filter -->
-            <select
-                class="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none">
-
+            <select class="w-full lg:w-auto px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none">
                 <option value="">All Gender</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
             </select>
 
             <!-- City Filter -->
-            <select
-                class="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none">
-
+            <select class="w-full lg:w-auto px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none">
                 <option value="">All Cities</option>
                 <option value="yangon">Yangon</option>
                 <option value="mandalay">Mandalay</option>
             </select>
 
             <!-- Filter Button -->
-            <button
-                class="bg-gray-900 text-white px-6 py-3 rounded-xl hover:bg-black transition">
+            <button class="w-full lg:w-auto bg-gray-900 text-white px-6 py-3 rounded-xl hover:bg-black transition">
                 Filter
             </button>
 
@@ -81,9 +76,9 @@
         </div>
 
         <!-- Responsive Table -->
-        <div>
+        <div class="overflow-x-auto">
 
-            <table class="w-full table-auto">
+            <table class="w-full min-w-[700px] table-auto">
 
                 <thead class="bg-gray-50 border-b border-gray-200">
 
