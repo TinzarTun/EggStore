@@ -62,7 +62,7 @@
     </div>
 
     <!-- Table Card -->
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-200">
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-visible">
 
         <!-- Table Header -->
         <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
@@ -76,9 +76,9 @@
         </div>
 
         <!-- Responsive Table -->
-        <div class="overflow-x-auto">
+        <div class="w-full overflow-visible">
 
-            <table class="w-full min-w-[700px] table-auto">
+            <table class="w-full table-auto">
 
                 <thead class="bg-gray-50 border-b border-gray-200">
 
@@ -163,17 +163,20 @@
                         <!-- Actions -->
                         <td class="px-4 py-4 text-center">
 
-                            <div class="relative inline-block text-left group">
+                            <div class="relative inline-block text-left">
 
                                 <!-- Dropdown Button -->
                                 <button
+                                    type="button"
+                                    onclick="toggleDropdown(this)"
                                     class="w-9 h-9 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600 transition">
 
                                     <i class="fas fa-ellipsis-v"></i>
                                 </button>
 
                                 <!-- Dropdown Menu -->
-                                <div class="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+                                <div
+                                    class="absolute right-0 top-full mt-2 w-40 bg-white border border-gray-200 rounded-xl shadow-2xl z-[9999] hidden group-menu">
 
                                     <a href="#"
                                         class="flex items-center gap-3 px-4 py-3 text-sm text-amber-600 hover:bg-gray-50">
@@ -216,7 +219,7 @@
             Showing 1 to 10 of 25 users
         </p>
 
-        <div class="flex items-center gap-2">
+        <div class="flex flex-wrap items-center justify-center gap-2">
 
             <button
                 class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition">
@@ -251,6 +254,34 @@
     <footer class="mt-auto pt-8 text-center text-sm text-gray-500">
         © 2026 EggStore Admin Panel. All rights reserved.
     </footer>
+
+    <script>
+        function toggleDropdown(button) {
+
+            // close all dropdowns first
+            document.querySelectorAll('.group-menu').forEach(menu => {
+                if (menu !== button.nextElementSibling) {
+                    menu.classList.add('hidden');
+                }
+            });
+
+            // toggle current dropdown
+            button.nextElementSibling.classList.toggle('hidden');
+        }
+
+        // close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+
+            if (!e.target.closest('.relative')) {
+
+                document.querySelectorAll('.group-menu').forEach(menu => {
+                    menu.classList.add('hidden');
+                });
+
+            }
+
+        });
+    </script>
 
 </main>
 @endsection
