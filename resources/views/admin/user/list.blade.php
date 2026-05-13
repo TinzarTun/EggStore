@@ -61,6 +61,26 @@
         </div>
     </div>
 
+    @if(session('success'))
+    <div class="mb-6 flex items-center justify-between gap-4 rounded-xl border border-green-200 bg-green-100 px-5 py-4 text-green-800 shadow-sm">
+
+        <div class="flex items-center gap-3">
+            <i class="fas fa-circle-check text-green-600"></i>
+
+            <span class="font-medium">
+                {{ session('success') }}
+            </span>
+        </div>
+
+        <button type="button"
+            onclick="this.closest('div').remove()"
+            class="text-green-700 hover:text-green-900">
+            <i class="fas fa-times"></i>
+        </button>
+
+    </div>
+    @endif
+
     <!-- Table Card -->
     <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-visible">
 
@@ -71,7 +91,7 @@
             </h3>
 
             <span class="text-sm text-gray-500">
-                Total: 25 Users
+                Total: {{ $users->total() }} Users
             </span>
         </div>
 
@@ -112,6 +132,8 @@
 
                 <tbody class="divide-y divide-gray-200">
 
+                    @forelse ($users as $user)
+
                     <tr class="hover:bg-gray-50 transition">
 
                         <!-- User -->
@@ -119,16 +141,21 @@
 
                             <div class="flex items-center gap-3">
 
-                                <img src="https://i.pravatar.cc/100?img=12"
-                                    class="w-10 h-10 rounded-full object-cover border border-gray-200">
+                                @if ($user->image)
+                                    <img src="{{ Storage::url($user->image) }}"
+                                        class="w-10 h-10 rounded-full object-cover border border-gray-200">
+                                @else
+                                    <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}"
+                                        class="w-10 h-10 rounded-full object-cover border border-gray-200">
+                                @endif
 
                                 <div class="min-w-0">
                                     <p class="font-medium text-gray-900 truncate">
-                                        John Doe
+                                        {{ $user->name }}
                                     </p>
 
                                     <p class="text-sm text-gray-500 truncate">
-                                        johndoe@example.com
+                                        {{ $user->email }}
                                     </p>
                                 </div>
 
@@ -138,19 +165,38 @@
 
                         <!-- Phone -->
                         <td class="px-4 py-4 text-gray-700 hidden md:table-cell">
-                            09123456789
+                            {{ $user->phone }}
                         </td>
 
                         <!-- Gender -->
-                        <td class="px-4 py-4 hidden md:table-cell">
-                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
-                                Male
-                            </span>
-                        </td>
+                        @switch($user->gender)
+                            @case('male')
+                                <td class="px-4 py-4 hidden md:table-cell">
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
+                                        {{ $user->gender }}
+                                    </span>
+                                </td>
+                                @break
+
+                            @case('female')
+                                <td class="px-4 py-4 hidden md:table-cell">
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium bg-pink-100 text-pink-700">
+                                        {{ $user->gender }}
+                                    </span>
+                                </td>
+                                @break
+
+                            @default
+                                <td class="px-4 py-4 hidden md:table-cell">
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+                                        {{ $user->gender }}
+                                    </span>
+                                </td>
+                        @endswitch
 
                         <!-- City -->
                         <td class="px-4 py-4 text-gray-700 hidden lg:table-cell">
-                            Yangon
+                            {{ $user->city }}
                         </td>
 
                         <!-- Status -->
@@ -204,6 +250,16 @@
 
                     </tr>
 
+                    @empty
+
+                    <tr>
+                        <td colspan="6" class="px-4 py-10 text-center text-gray-500">
+                            No users found.
+                        </td>
+                    </tr>
+
+                    @endforelse
+
                 </tbody>
 
             </table>
@@ -213,42 +269,56 @@
     </div>
 
     <!-- Pagination -->
-    <div class="flex flex-col md:flex-row items-center justify-between gap-4 mt-6">
+    <div class="mt-6 flex flex-col md:flex-row items-center justify-between gap-4">
 
         <p class="text-sm text-gray-500">
-            Showing 1 to 10 of 25 users
+            Showing {{ $users->firstItem() ?? 0 }}
+            to {{ $users->lastItem() ?? 0 }}
+            of {{ $users->total() }} users
         </p>
 
-        <div class="flex flex-wrap items-center justify-center gap-2">
+        <div class="flex items-center gap-1">
+            {{-- Previous --}}
+            @if ($users->onFirstPage())
+                <span class="px-3 py-2 text-gray-400 bg-gray-100 rounded-lg cursor-not-allowed">
+                    <i class="fas fa-chevron-left"></i>
+                </span>
+            @else
+                <a href="{{ $users->previousPageUrl() }}"
+                   class="px-3 py-2 bg-white border rounded-lg hover:bg-gray-100">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+            @endif
 
-            <button
-                class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition">
-                Previous
-            </button>
+            {{-- Pages --}}
+            @foreach ($users->getUrlRange(1, $users->lastPage()) as $page => $url)
+                @if ($page == $users->currentPage())
+                    <span class="px-3 py-2 bg-amber-600 text-white rounded-lg">
+                        {{ $page }}
+                    </span>
+                @else
+                    <a href="{{ $url }}"
+                       class="px-3 py-2 bg-white border rounded-lg hover:bg-gray-100">
+                        {{ $page }}
+                    </a>
+                @endif
+            @endforeach
 
-            <button
-                class="w-10 h-10 rounded-lg bg-amber-600 text-white">
-                1
-            </button>
-
-            <button
-                class="w-10 h-10 rounded-lg border border-gray-300 hover:bg-gray-100">
-                2
-            </button>
-
-            <button
-                class="w-10 h-10 rounded-lg border border-gray-300 hover:bg-gray-100">
-                3
-            </button>
-
-            <button
-                class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition">
-                Next
-            </button>
-
+            {{-- Next --}}
+            @if ($users->hasMorePages())
+                <a href="{{ $users->nextPageUrl() }}"
+                   class="px-3 py-2 bg-white border rounded-lg hover:bg-gray-100">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            @else
+                <span class="px-3 py-2 text-gray-400 bg-gray-100 rounded-lg cursor-not-allowed">
+                    <i class="fas fa-chevron-right"></i>
+                </span>
+            @endif
         </div>
 
     </div>
+
 
     <!-- Footer -->
     <footer class="mt-auto pt-8 text-center text-sm text-gray-500">
