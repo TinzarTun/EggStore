@@ -74,10 +74,46 @@ class UserController extends Controller
     }
 
     // get list
-    public function getList(){
-        $users = User::with(['roles.permissions'])
-        ->orderBy('updated_at', 'desc')
-        ->paginate(5);
+    public function getList(Request $request)
+    {
+        $query = User::query();
+
+        // Search by name, email, or phone
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('phone', 'like', "%{$search}%");
+            });
+        }
+
+        // Search by city
+        if ($request->filled('city')) {
+            if ($request->city === 'unknown') {
+                $query->whereNull('city')
+                      ->orWhere('city', '');
+            } else {
+                $query->where('city', $request->city);
+            }
+        }
+
+        // Search by status (role + permission logic)
+        if ($request->filled('status')) {
+            if ($request->status === 'yes') {
+                $query->whereHas('roles.permissions');
+            }
+
+            if ($request->status === 'no') {
+                $query->whereDoesntHave('roles.permissions');
+            }
+        }
+
+        $users = $query->orderBy('updated_at', 'desc')
+                       ->paginate(5)
+                       ->appends($request->all());
+
         return view('admin.user.list', compact('users'));
     }
 

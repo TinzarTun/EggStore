@@ -28,38 +28,39 @@
     <!-- Search & Filter -->
     <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 mb-6">
 
-        <div class="flex flex-col lg:flex-row gap-4">
+        <form action="{{ route('user.list') }}" method="get">
+            <div class="flex flex-col lg:flex-row gap-4">
+                <!-- Search -->
+                <div class="relative flex-1">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
 
-            <!-- Search -->
-            <div class="relative flex-1">
-                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" name="search" value="{{ request('search') }}"
+                        placeholder="Search user by name, email, or phone..."
+                        class="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none">
+                </div>
 
-                <input type="text"
-                    placeholder="Search user by name or email..."
-                    class="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none">
+                <!-- City Filter -->
+                <select name="city" class="w-full lg:w-auto px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none">
+                    <option value="">All Cities</option>
+                    <option value="yangon" {{ request('city') === 'yangon' ? 'selected' : '' }}>Yangon</option>
+                    <option value="mandalay" {{ request('city') === 'mandalay' ? 'selected' : '' }}>Mandalay</option>
+                    <option value="unknown" {{ request('city') === 'unknown' ? 'selected' : '' }}>Unknown</option>
+                </select>
+
+                <!-- Status Filter -->
+                <select name="status" class="w-full lg:w-auto px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none">
+                    <option value="">All Status</option>
+                    <option value="yes" {{ request('status') === 'yes' ? 'selected' : '' }}>Yes</option>
+                    <option value="no" {{ request('status') === 'no' ? 'selected' : '' }}>No</option>
+                </select>
+
+                <!-- Filter Button -->
+                <button type="submit" class="w-full lg:w-auto bg-gray-900 text-white px-6 py-3 rounded-xl hover:bg-black transition">
+                    Filter
+                </button>
+
             </div>
-
-            <!-- City Filter -->
-            <select class="w-full lg:w-auto px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none">
-                <option value="">All Cities</option>
-                <option value="yangon">Yangon</option>
-                <option value="mandalay">Mandalay</option>
-                <option value="unknown">Unknown</option>
-            </select>
-
-            <!-- Status Filter -->
-            <select class="w-full lg:w-auto px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none">
-                <option value="">All Status</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-            </select>
-
-            <!-- Filter Button -->
-            <button class="w-full lg:w-auto bg-gray-900 text-white px-6 py-3 rounded-xl hover:bg-black transition">
-                Filter
-            </button>
-
-        </div>
+        </form>
     </div>
 
     @if(session('success'))
@@ -175,19 +176,19 @@
 
                                 @case('male')
                                     <span class="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
-                                        male
+                                        Male
                                     </span>
                                     @break
 
                                 @case('female')
                                     <span class="px-3 py-1 rounded-full text-xs font-medium bg-pink-100 text-pink-700">
-                                        female
+                                        Female
                                     </span>
                                     @break
 
                                 @case('other')
                                     <span class="px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-700">
-                                        other
+                                        Other
                                     </span>
                                     @break
 
@@ -201,7 +202,7 @@
 
                         <!-- City -->
                         <td class="px-4 py-4 text-gray-700 hidden lg:table-cell">
-                            {{ $user->city ?? 'Unknown' }}
+                            {{ ucfirst($user->city ?? 'Unknown') }}
                         </td>
 
                         <!-- Status -->
