@@ -39,18 +39,19 @@
                     class="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none">
             </div>
 
-            <!-- Gender Filter -->
-            <select class="w-full lg:w-auto px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none">
-                <option value="">All Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-            </select>
-
             <!-- City Filter -->
             <select class="w-full lg:w-auto px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none">
                 <option value="">All Cities</option>
                 <option value="yangon">Yangon</option>
                 <option value="mandalay">Mandalay</option>
+                <option value="unknown">Unknown</option>
+            </select>
+
+            <!-- Status Filter -->
+            <select class="w-full lg:w-auto px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none">
+                <option value="">All Status</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
             </select>
 
             <!-- Filter Button -->
@@ -155,7 +156,7 @@
                                     </p>
 
                                     <p class="text-sm text-gray-500 truncate">
-                                        {{ $user->email }}
+                                        {{ $user->email ?? 'Not provided' }}
                                     </p>
                                 </div>
 
@@ -165,45 +166,65 @@
 
                         <!-- Phone -->
                         <td class="px-4 py-4 text-gray-700 hidden md:table-cell">
-                            {{ $user->phone }}
+                            {{ $user->phone ?? 'No phone' }}
                         </td>
 
                         <!-- Gender -->
-                        @switch($user->gender)
-                            @case('male')
-                                <td class="px-4 py-4 hidden md:table-cell">
+                        <td class="px-4 py-4 hidden md:table-cell">
+                            @switch($user->gender)
+
+                                @case('male')
                                     <span class="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
-                                        {{ $user->gender }}
+                                        male
                                     </span>
-                                </td>
-                                @break
+                                    @break
 
-                            @case('female')
-                                <td class="px-4 py-4 hidden md:table-cell">
+                                @case('female')
                                     <span class="px-3 py-1 rounded-full text-xs font-medium bg-pink-100 text-pink-700">
-                                        {{ $user->gender }}
+                                        female
                                     </span>
-                                </td>
-                                @break
+                                    @break
 
-                            @default
-                                <td class="px-4 py-4 hidden md:table-cell">
-                                    <span class="px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
-                                        {{ $user->gender }}
+                                @case('other')
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-700">
+                                        other
                                     </span>
-                                </td>
-                        @endswitch
+                                    @break
+
+                                @default
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-600">
+                                        N/A
+                                    </span>
+
+                            @endswitch
+                        </td>
 
                         <!-- City -->
                         <td class="px-4 py-4 text-gray-700 hidden lg:table-cell">
-                            {{ $user->city }}
+                            {{ $user->city ?? 'Unknown' }}
                         </td>
 
                         <!-- Status -->
                         <td class="px-4 py-4">
-                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
-                                Active
-                            </span>
+                            @php
+                                $hasRole = $user->roles->count() > 0;
+
+                                $hasPermission = $user->roles->some(function ($role) {
+                                    return $role->permissions->count() > 0;
+                                });
+
+                                $isYes = $hasRole && $hasPermission;
+                            @endphp
+
+                            @if($isYes)
+                                <span class="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                                    Yes
+                                </span>
+                            @else
+                                <span class="px-3 py-1 rounded-full text-xs font-medium bg-red-200 text-red-700">
+                                    No
+                                </span>
+                            @endif
                         </td>
 
                         <!-- Actions -->

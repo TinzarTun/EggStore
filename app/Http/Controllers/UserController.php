@@ -75,8 +75,9 @@ class UserController extends Controller
 
     // get list
     public function getList(){
-        $query = User::query();
-        $users = $query->orderBy('updated_at', 'desc')->paginate(5);
+        $users = User::with(['roles.permissions'])
+        ->orderBy('updated_at', 'desc')
+        ->paginate(5);
         return view('admin.user.list', compact('users'));
     }
 
