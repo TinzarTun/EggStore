@@ -121,6 +121,9 @@
                         @error('email')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
+                        @error('contact')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                 </div>
@@ -157,11 +160,16 @@
 
                     <!-- Phone -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            Phone <span class="text-red-500">*</span>
+                        </label>
                         <input type="tel" name="phone" value="{{ old('phone') }}"
                             placeholder="e.g., 09123456789"
                             class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none">
                         @error('phone')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                        @error('contact')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>

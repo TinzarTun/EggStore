@@ -20,13 +20,13 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'name' => 'required|string|max:30',
-            'email' => 'required|email:rfc,dns|max:50|unique:users,email',
+            'email' => 'nullable|email:rfc,dns|max:50|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
-            'phone' => 'required|digits_between:1,15',
-            'gender' => 'required',
-            'city' => 'required',
-            'location' => 'required',
-            'address' => 'required|string|max:255',
+            'phone' => 'nullable|digits_between:1,15|unique:users,phone',
+            'gender' => 'nullable',
+            'city' => 'nullable',
+            'location' => 'nullable',
+            'address' => 'nullable|string|max:255',
             'terms' => 'accepted',
         ], [
             'image.required' => 'An image is required',
@@ -35,19 +35,14 @@ class UserController extends Controller
             'image.max' => 'The image may not be greater than 2048 kilobytes',
             'name.required'=> 'Your name is required',
             'name.max' => 'Name must not exceed 30 characters',
-            'email.required'=> 'Your email is required',
             'email.unique' => 'This email is already taken',
             'email.email' => 'Please provide a valid email address',
             'password.required'=> 'Your password is required',
             'password.min' => 'Password must be at least 6 characters',
             'password.confirmed' => 'Password confirmation does not match',
-            'phone.required'=> 'Your phone number is required',
             'phone.max' => 'Phone number must not exceed 15 characters',
             'phone.digits_between' => 'Phone number must contain only digits and maximum 15 digits',
-            'gender.required'=> 'Your gender is required',
-            'city.required'=> 'Your city is required',
-            'location.required'=> 'Your location is required',
-            'address.required'=> 'Your address is required',
+            'phone.unique' => 'This phone number is already taken',
             'address.max' => 'Address must not exceed 255 characters',
             'terms.accepted' => 'You must agree to the Terms and Conditions',
         ]);
@@ -55,6 +50,15 @@ class UserController extends Controller
         if ($validator->fails()) {
             return back()
                 ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Ensure at least email or phone is provided
+        if (empty($request->email) && empty($request->phone)) {
+            return back()
+                ->withErrors([
+                    'contact' => 'You must provide at least an email or a phone number.'
+                ])
                 ->withInput();
         }
 
