@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -123,7 +124,15 @@ class UserController extends Controller
     // get delete
     public function getDelete($id)
     {
-        dd('this is delete');
+        $user = User::findOrFail($id);
+
+        if ($user->image && Storage::disk('public')->exists($user->image)) {
+            Storage::disk('public')->delete($user->image);
+        }
+
+        $user->delete();
+
+        return redirect()->route('user.list')->with('success', 'User deleted successfully!');
     }
 
     // get user data
