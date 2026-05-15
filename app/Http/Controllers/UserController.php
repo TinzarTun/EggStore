@@ -138,7 +138,9 @@ class UserController extends Controller
     // get view
     public function getView($id)
     {
-        dd('this is detail page');
+        $user = User::findOrFail($id)->toArray();
+        // dd($user);
+        return view('admin.user.view', compact('user'));
     }
 
     // get user data
