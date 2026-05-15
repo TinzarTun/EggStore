@@ -258,11 +258,11 @@
                                         Edit
                                     </a>
 
-                                    <button
-                                        class="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-600 hover:bg-gray-50">
+                                    <a href="{{ route('user.delete', $user['id']) }}"
+                                        class="flex items-center gap-3 px-4 py-3 text-sm text-red-600 hover:bg-gray-50">
                                         <i class="fas fa-trash"></i>
                                         Delete
-                                    </button>
+                                    </a>
 
                                 </div>
 

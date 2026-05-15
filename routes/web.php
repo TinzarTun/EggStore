@@ -12,4 +12,5 @@ Route::group(['prefix'=> 'user'], function () {
     Route::get('create', [UserController::class,'getCreate'])->name('user.create');
     Route::post('create', [UserController::class,'postCreate'])->name('user.store');
     Route::get('list', [UserController::class,'getList'])->name('user.list');
+    Route::get('/delete/{id}', [UserController::class, 'getDelete'])->name('user.delete');
 });

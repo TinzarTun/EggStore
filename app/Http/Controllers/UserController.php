@@ -120,6 +120,12 @@ class UserController extends Controller
         return view('admin.user.list', compact('users'));
     }
 
+    // get delete
+    public function getDelete($id)
+    {
+        dd('this is delete');
+    }
+
     // get user data
     private function getUserData(Request $request)
     {
