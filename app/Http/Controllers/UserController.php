@@ -18,7 +18,7 @@ class UserController extends Controller
     {
         // validation
         $validator = Validator::make($request->all(), [
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'name' => 'required|string|max:30',
             'email' => 'nullable|email:rfc,dns|max:50|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
@@ -29,7 +29,6 @@ class UserController extends Controller
             'address' => 'nullable|string|max:255',
             'terms' => 'accepted',
         ], [
-            'image.required' => 'An image is required',
             'image.image' => 'The uploaded file must be an image',
             'image.mimes' => 'The image must be a file of type: jpeg, png, jpg, gif',
             'image.max' => 'The image may not be greater than 2048 kilobytes',
@@ -54,7 +53,7 @@ class UserController extends Controller
         }
 
         // Ensure at least email or phone is provided
-        if (empty($request->email) && empty($request->phone)) {
+        if (!$request->filled('email') && !$request->filled('phone')) {
             return back()
                 ->withErrors([
                     'contact' => 'You must provide at least an email or a phone number.'

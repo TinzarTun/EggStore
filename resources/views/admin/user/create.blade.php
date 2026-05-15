@@ -26,13 +26,9 @@
             </a>
 
             @if(session('success'))
-                <div class="mb-4 px-4 py-3 rounded-lg bg-green-100 border border-green-300 text-green-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                    <span>{{ session('success') }}</span>
-
-                    <button onclick="this.parentElement.remove()" class="text-green-700 font-bold">
-                        ×
-                    </button>
-                </div>
+                <script>
+                    alert(@json(session('success')));
+                </script>
             @endif
 
             <form class="space-y-6" method="POST" action="{{ route('user.store') }}" enctype="multipart/form-data">
@@ -40,10 +36,6 @@
 
                 <!-- Image Upload -->
                 <div>
-                    {{-- <label class="block text-sm font-medium text-gray-700 mb-2">
-                        Profile Image
-                    </label> --}}
-
                     <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
 
                         <!-- Preview -->
@@ -113,15 +105,12 @@
                     <!-- Email -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">
-                            Email <span class="text-red-500">*</span>
+                            Email
                         </label>
                         <input type="email" name="email" value="{{ old('email') }}"
                             placeholder="e.g., user@example.com"
                             class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none">
                         @error('email')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                        @error('contact')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
@@ -155,21 +144,25 @@
 
                 </div>
 
+                <!-- Shared Contact Error -->
+                @error('contact')
+                    <div class="mb-4 p-3 rounded-lg bg-red-100 border border-red-300 text-red-700 text-sm">
+                        {{ $message }}
+                    </div>
+                @enderror
+
                 <!-- Phone & Gender -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                     <!-- Phone -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">
-                            Phone <span class="text-red-500">*</span>
+                            Phone
                         </label>
                         <input type="tel" name="phone" value="{{ old('phone') }}"
                             placeholder="e.g., 09123456789"
                             class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none">
                         @error('phone')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                        @error('contact')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
