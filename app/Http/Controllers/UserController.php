@@ -135,6 +135,12 @@ class UserController extends Controller
         return redirect()->route('user.list')->with('success', 'User deleted successfully!');
     }
 
+    // get view
+    public function getView($id)
+    {
+        dd('this is detail page');
+    }
+
     // get user data
     private function getUserData(Request $request)
     {

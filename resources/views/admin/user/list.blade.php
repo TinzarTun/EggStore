@@ -246,7 +246,7 @@
                                 <div
                                     class="absolute right-0 top-full mt-2 w-40 bg-white border border-gray-200 rounded-xl shadow-2xl z-[9999] hidden group-menu">
 
-                                    <a href="#"
+                                    <a href="{{ route('user.view', $user['id']) }}"
                                         class="flex items-center gap-3 px-4 py-3 text-sm text-amber-600 hover:bg-gray-50">
                                         <i class="fas fa-eye"></i>
                                         View
