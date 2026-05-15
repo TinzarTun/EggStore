@@ -259,6 +259,7 @@
                                     </a>
 
                                     <a href="{{ route('user.delete', $user['id']) }}"
+                                        onclick="return confirm('Are you sure you want to delete {{ $user->name }}?')"
                                         class="flex items-center gap-3 px-4 py-3 text-sm text-red-600 hover:bg-gray-50">
                                         <i class="fas fa-trash"></i>
                                         Delete
